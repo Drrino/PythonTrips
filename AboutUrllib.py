@@ -1,5 +1,6 @@
 from urllib import request
 from urllib import parse
+import re
 
 # 抓取静态网页
 # url_request = request.Request("http://www.baidu.com")
@@ -27,8 +28,7 @@ from urllib import parse
 # login_get_request = request.Request(geturl)
 # login_get_response = request.urlopen(login_get_request)
 # print(login_get_response.read())
-
-
+import flag as flag
 
 '''
 User-Agent : 有些服务器或 Proxy 会通过该值来判断是否是浏览器发出的请求
@@ -80,3 +80,22 @@ application/x-www-form-urlencoded ： 浏览器提交 Web 表单时使用
 # else:
 #     print("OK")
 
+
+
+# Re模块
+pattern = re.compile(r'hello')  # 返回pattern对象,hello前面的r的意思是“原生字符串”
+m = re.match(r'(\w+) (\w+)(?P<sign>.*)', 'hello world!')  # 匹配如下内容：单词+空格+单词+任意字符
+print("m.string:", m.string)  # string: 匹配时使用的文本
+print("m.re:", m.re)  # re: 匹配时使用的Pattern对象
+print("m.pos:", m.pos)  # pos: 文本中正则表达式开始搜索的索引
+print("m.endpos:", m.endpos)  # endpos: 文本中正则表达式结束搜索的索引
+print("m.lastindex:", m.lastindex)  # lastindex: 最后一个被捕获的分组在文本中的索引
+print("m.lastgroup:", m.lastgroup)  # lastgroup: 最后一个被捕获的分组的别名
+print("m.group():", m.group())
+print("m.group(1,2):", m.group(1, 2))
+print("m.groups():", m.groups())
+print("m.groupdict():", m.groupdict())
+print("m.start(2):", m.start(2))
+print("m.end(2):", m.end(2))
+print("m.span(2):", m.span(2))
+print(r"m.expand(r'\g \g\g'):", m.expand(r'\2 \1\3'))
