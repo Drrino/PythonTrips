@@ -33,6 +33,7 @@ class QSBK:
         self.stories = []
         self.enable = False
 
+    # 传入某一页的索引获得页面代码
     def getPage(self, pageIndex):
         try:
             url = 'http://www.qiushibaike.com/hot/page/' + str(pageIndex)
@@ -45,30 +46,13 @@ class QSBK:
                 print(u"连接糗事百科失败,错误原因", e.reason)
                 return None
 
+    # 传入某一页代码，返回本页不带图片的段子列表
     def getPageItems(self, pageIndex):
         pageCode = self.getPage(pageIndex)
         if not pageCode:
             print("页面加载失败")
             return None
-            # pattern = re.compile('<div.*?author">.*?<a.*?<img.*?>(.*?)</a>.*?<div.*?' +
-            #                      'content">(.*?)<!--(.*?)-->.*?</div>(.*?)<div class="stats.*?class="number">(.*?)</i>',
-            #                      re.S)
-            # items = re.findall(pattern, pageCode)
-            # # 用来存储每页的段子们
-            # pageStories = []
-            # # 遍历正则表达式匹配的信息
-            # for item in items:
-            #     print(item[0])
-            #     # 是否含有图片
-            #     haveImg = re.search("img", item[3])
-            #     # 如果不含有图片，把它加入list中
-            #     if not haveImg:
-            #         replaceBR = re.compile('<br/>')
-            #         text = re.sub(replaceBR, "\n", item[1])
-            #         # item[0]是一个段子的发布者，item[1]是内容，item[2]是发布时间,item[4]是点赞数
-            #         pageStories.append([item[0].strip(), text.strip(), item[2].strip(), item[4].strip()])
-            # return pageStories
-
+        print(pageCode)
         pattern = re.compile('h2>(.*?)</h2.*?content">(.*?)</.*?number">(.*?)</', re.S)
         items = re.findall(pattern, pageCode)
         pageStories = []
@@ -76,6 +60,7 @@ class QSBK:
             pageStories.append([item[0].strip(), item[1].strip(), item[2].strip()])
         return pageStories
 
+    # 加载并提取页面的内容，加入到列表中
     def loadPage(self):
         if self.enable:
             if len(self.stories) < 2:
@@ -84,6 +69,7 @@ class QSBK:
                     self.stories.append(pageStories)
                     self.pageIndex += 1
 
+    # 调用该方法，每次敲回车打印输出一个段子
     def getOneStory(self, pageStories, page):
         for story in pageStories:
             user_input = input()
